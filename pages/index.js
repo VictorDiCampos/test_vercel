@@ -21,11 +21,22 @@ export default function Home() {
 
   const [data, setData] = useState([]);
   const [formData, updateFormData] = useState({});
+  const requestOptions = {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({data: formData}),
+  }
   async function getData(){
     const res = await fetch('/api/getCustomers');
     const newData = await res.json();
 
     setData(newData);
+  }
+
+  async function addCustomer() {
+    await fetch('api/newCustomer', requestOptions)
+    .then(() => getData())
+    .catch((e) => console.log(e));
   }
 
   useEffect(() =>{
